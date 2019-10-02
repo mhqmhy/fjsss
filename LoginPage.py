@@ -2,57 +2,64 @@
 import sys
 import pygame
 from PyQt5 import QtWidgets
-from PyQt5.QtWidgets import QApplication, QWidget, QDialog, QLabel, QLineEdit, QPushButton, \
-    QGridLayout, QVBoxLayout, QHBoxLayout, QMessageBox
-from PyQt5.QtGui import QMovie,QPixmap
-
+from PyQt5.QtWidgets import QApplication, QWidget,QLabel,QPushButton,QVBoxLayout,QHBoxLayout
+from PyQt5.QtGui import QMovie,QPixmap,QCursor,QPalette,QBrush,QIcon
+from PyQt5.QtCore import Qt
 #自定义库
 import LoginUi
 from loadSrc import LoadSrc
+from MainPage import MainWindow
 import SignInPage
-
 
 
 class LoginPage(QWidget,LoginUi.Ui_Form):
 
     def __init__(self):
         super(LoginPage,self).__init__()
-
+        #设置光标变化!!!
+        #self.setCursor(QCursor(QPixmap('./src/mouse.png')))
+        # self.setCursor(QCursor(Qt.PointingHandCursor))
+        self.setCursor(QCursor(QPixmap('./src/mouse40.png')))
         #设置窗口大小
-        self.setMinimumSize(600,523)
-        self.setMaximumSize(600,523)
+        self.setMinimumSize(720,487)
+        self.setMaximumSize(720,487)
+        #设置背景图片
+        palette=QPalette()
+        palette.setBrush(self.backgroundRole(),QBrush(QPixmap('./src/背景2.jpg')))
+        self.setPalette(palette)
         self.setupUi(self)
         self.setWindowTitle('登录界面')
+        self.loadBGM()
         #self.setWindowFlags(self.FramelessWindowHint) #设置窗口无边框
         self.initUi()
-        self.LoginCartoon_init()
-        self.signIn=SignInPage.SignIn()
+        # self.LoginCartoon_init()
+        # self.signIn=SignInPage.SignIn()
 
     def initUi(self):#信号连接事件
-        self.SignInBtn.clicked.connect(self.signInEvent)
-        self.SignUpBtn.clicked.connect(self.signUpEvent)
+
+        self.qqBtn=QPushButton(self)
+        self.qqBtn.setStyleSheet("QPushButton{border-image: url(./src/icon/login_btn_qq.png)}")
+        self.wxBtn=QPushButton(self)
+        self.wxBtn.setStyleSheet("QPushButton{border-image: url(./src/icon/login_btn_wx.png)}")
+        self.zhBtn = QPushButton(self)
+        self.zhBtn.setStyleSheet("QPushButton{border-image: url(./src/icon/login_btn_zh.png)}")
+        self.qqBtn.setGeometry(10,10,100,35)
+        self.wxBtn.setGeometry(120,10,100,35)
+        self.zhBtn.setGeometry(230,10,100,35)
+        # self.SignInBtn.clicked.connect(self.signInEvent)
+        self.zhBtn.clicked.connect(self.signUpEvent)
 
     def signInEvent(self): #跳转到注册页面
-        self.signIn.exec_()
+        pass
+        # self.signIn.exec_()
 
     def signUpEvent(self): #检验账号密码正确性，跳转到主界面
-        pass
+        #直接校验正确
+        win.show()
+        self.close()
 
 
-    def LoginCartoon_init(self): #加载动画、音乐和默认头像
-        #加载GIF的方法 https://www.jb51.net/article/163177.htm
-        gif=QMovie(LoadSrc('./src/login_Cartoon.gif'))
-        self.login_cartoon.setMovie(gif)
-        self.loginAvtar_init()
-        gif.start()
-        self.loadBGM()
-
-    def loginAvtar_init(self,path='./src/default_Avatar.jpg'):
-        imgPath=LoadSrc(path)
-        pix=QPixmap(imgPath)
-        self.avatar.setPixmap(pix)
-
-    def loadBGM(self,path='./src/login_BGM.mp3'): #加载bgm https://www.zhangshengrong.com/p/KWa3jYAz1o/
+    def loadBGM(self,path=r'.\src\bgm\MusicEx\MusicEx_Welcome.ogg'): #加载bgm https://www.zhangshengrong.com/p/KWa3jYAz1o/
         pygame.mixer.init()
         bgmPath=LoadSrc(path)
         pygame.mixer.music.load(bgmPath)
@@ -60,9 +67,9 @@ class LoginPage(QWidget,LoginUi.Ui_Form):
 
 
 
-
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     demo = LoginPage()
     demo.show()
+    win = MainWindow()
     sys.exit(app.exec_())
