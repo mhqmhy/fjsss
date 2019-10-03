@@ -6,8 +6,9 @@ from PyQt5.QtGui import QMovie,QPixmap,QCursor,QPalette,QBrush,QFont,QIcon
 from PyQt5 import QtCore
 import random
 
+
 class Room(QWidget):
-    def __init__(self):
+    def __init__(self,hall=None):
         super(QWidget,self).__init__()
         self.setWindowTitle('游戏界面')
         self.setObjectName('GameWindow')
@@ -18,10 +19,17 @@ class Room(QWidget):
         self.loadTable()
         self.start()
         self.initUi()
-
+        self.hall=hall
     def initUi(self):
+        self.quitBtn = QPushButton(self)
+        self.quitBtn.setStyleSheet("QPushButton{border-image: url(./src/top_btn_exit.png)}")
+        self.quitBtn.setGeometry(0, 8, 60, 62)
         self.startBtn.clicked.connect(self.closeStartBtn)
-
+        self.quitBtn.clicked.connect(self.quit)
+    def quit(self):
+        if self.hall!=None:
+            self.hall.show()
+        self.close()
     def loadBg(self):
         self.setCursor(QCursor(QPixmap('./src/mouse40.png')))
         palette = QPalette()
@@ -36,26 +44,38 @@ class Room(QWidget):
         self.showOthersPai()
     def showOthersPai(self):
         for i in range(13):
-            x = QLabel(self)
-            x.setPixmap(QPixmap('./src/cardBack.png'))
+            x = QPushButton(self)
+            # x.setPixmap(QPixmap('./src/cardBack.png'))
+            x.setStyleSheet("QPushButton{border-image: url(./src/cardBack.png)}")
             x.setGeometry(180, 550+i*5, 73, 100)
-            x.setScaledContents(True)
+            # x.setScaledContents(True)
 
-            x = QLabel(self)
-            x.setPixmap(QPixmap('./src/cardBack.png'))
+            x = QPushButton(self)
+            # x.setPixmap(QPixmap('./src/cardBack.png'))
+            x.setStyleSheet("QPushButton{border-image: url(./src/cardBack.png)}")
             x.setGeometry(950, 550 + i * 5, 73, 100)
-            x.setScaledContents(True)
+            # x.setScaledContents(True)
 
-            x = QLabel(self)
-            x.setPixmap(QPixmap('./src/cardBack.png'))
+            x = QPushButton(self)
+            # x.setPixmap(QPixmap('./src/cardBack.png'))
+            x.setStyleSheet("QPushButton{border-image: url(./src/cardBack.png)}")
             x.setGeometry(500+10*i, 450, 73, 100)
-            x.setScaledContents(True)
+            # x.setScaledContents(True)
     def showMyPai(self):
+        self.pokes=[]
+        self.pokesbg=[]
         for i in range(13):
-            x = QLabel(self)
-            x.setPixmap(QPixmap('./src/cardBack.png'))
+            pokebg = QLabel(self)
+            pokebg.setPixmap(QPixmap('./src/pokerBgDefault.png'))
+            pokebg.setGeometry(450 + 20 * i, 680, 73, 100)
+            pokebg.hide()
+            self.pokesbg.append(pokebg)
+            x = QPushButton(self)
+            # x.setPixmap(QPixmap('./src/cardBack.png'))
+            x.setStyleSheet("QPushButton{border-image: url(./src/cardBack.png)}")
             x.setGeometry(450+20*i, 680, 73, 100)
-            x.setScaledContents(True)
+            self.pokes.append(x)
+            # x.setScaledContents(True)
     def start(self):
         self.startBtn=QPushButton(self)
         self.startBtn.setStyleSheet("QPushButton{border-image: url(./src/开始游戏.png)}")
@@ -65,6 +85,9 @@ class Room(QWidget):
         self.startBtn.close()
         self.startGame()
         #开始发牌!!!
+        for x in self.pokes:
+            self.pokesbg[self.pokes.index(x)].show()
+            x.setStyleSheet("QPushButton{border-image: url(./src/ElderKing.png)}")
     def startGame(self):
 
         number = list(range(1, 53))

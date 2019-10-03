@@ -2,15 +2,18 @@ import sys
 from MainPageUi import Ui_MainWindow
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QApplication, QWidget,QMainWindow,QLabel,QPushButton
-from PyQt5.QtGui import QMovie,QPixmap,QCursor,QPalette,QBrush,QFont
+from PyQt5.QtGui import QMovie,QPixmap,QCursor,QPalette,QBrush,QFont,QIcon
 from PyQt5 import QtCore
+from Game import Room
 #QMainWindow,Ui_MainWindow,
+
+
 class MainWindow(QWidget): #绝对定位布局
 
     def __init__(self):
         super(MainWindow,self).__init__()
         self.setObjectName('MainWindow')
-        self.initUi()
+
         #self.setupUi(self)
         #self.setMinimumSize(1680, 1136)
         self.setMinimumSize(1000, 676)
@@ -22,7 +25,7 @@ class MainWindow(QWidget): #绝对定位布局
         palette.setBrush(self.backgroundRole(), QBrush(QPixmap('./src/hall1000.jpg')))
         self.setPalette(palette)
         self.setCursor(QCursor(QPixmap('./src/mouse40.png')))
-
+        self.initUi()
 
     def initUi(self):
         wlayout = QtWidgets.QVBoxLayout()  # 全局布局（1个）：水平
@@ -31,11 +34,16 @@ class MainWindow(QWidget): #绝对定位布局
         self.userName_init()
         self.room_init()
         self.topTab_init()
-        # hlayout.addWidget(QtWidgets.QPushButton('11'))
-        # hwg=QtWidgets.QWidget()
-        # hwg.setLayout(hlayout)
-        # wlayout.addWidget(hwg)
-        # self.setLayout(wlayout)
+        self.level1.clicked.connect(self.click_level1)
+
+    def click_level1(self):
+        print(11)
+        try:
+            self.x=Room()
+            self.x.show()
+        except Exception as e:
+            print(e)
+        # self.show()
     def topTab_init(self):
         pass
         # tab1=QLabel(self)
@@ -64,37 +72,41 @@ class MainWindow(QWidget): #绝对定位布局
         zhuyeBtn.setStyleSheet("QPushButton{border-image: url(./src/person_btn_tap_zy.png)}")
 
     def room_init(self):
-        level1 = QLabel(self)
         frame1 = QLabel(self)
-        frame1.setPixmap(QPixmap('./src/room_frame.png'))
+        frame1.setPixmap(QPixmap('./src/room_bg_level1.png'))
         frame1.setGeometry(150, 200, 170, 225)
         frame1.setScaledContents(True)
-        level1.setPixmap(QPixmap('./src/room_bg_level1.png'))
-        level1.setGeometry(150, 200, 170, 225)
-        level1.setScaledContents(True)  # 让图片自适应label大小
 
-        level2 = QLabel(self)
-        level2.setPixmap(QPixmap('./src/room_bg_level2.png'))
-        level2.setGeometry(340, 200, 170, 225)
-        level2.setScaledContents(True)  # 让图片自适应label大小
+        self.level1 = QPushButton(self)
+        self.level1.setStyleSheet("QPushButton{border-image: url(./src/room_frame.png)}")
+        self.level1.setGeometry(150, 200, 170, 225)
+
+        # self.level1.setIcon(QIcon(QPixmap('./src/room_bg_level1.png')))
+
+        # self.level1.setScaledContents(True)  # 让图片自适应label大小
+
+        self.level2 = QLabel(self)
+        self.level2.setPixmap(QPixmap('./src/room_bg_level2.png'))
+        self.level2.setGeometry(340, 200, 170, 225)
+        self.level2.setScaledContents(True)  # 让图片自适应label大小
         frame2 = QLabel(self)
         frame2.setPixmap(QPixmap('./src/room_frame.png'))
         frame2.setGeometry(340, 200, 170, 225)
         frame2.setScaledContents(True)
 
-        level3 = QLabel(self)
-        level3.setPixmap(QPixmap('./src/room_bg_level3.png'))
-        level3.setGeometry(530, 200, 170, 225)
-        level3.setScaledContents(True)  # 让图片自适应label大小
+        self.level3 = QLabel(self)
+        self.level3.setPixmap(QPixmap('./src/room_bg_level3.png'))
+        self.level3.setGeometry(530, 200, 170, 225)
+        self.level3.setScaledContents(True)  # 让图片自适应label大小
         frame3 = QLabel(self)
         frame3.setPixmap(QPixmap('./src/room_frame.png'))
         frame3.setGeometry(530, 200, 170, 225)
         frame3.setScaledContents(True)
 
-        level4 = QLabel(self)
-        level4.setPixmap(QPixmap('./src/room_bg_level4.png'))
-        level4.setGeometry(720, 200, 170, 225)
-        level4.setScaledContents(True)  # 让图片自适应label大小
+        self.level4 = QLabel(self)
+        self.level4.setPixmap(QPixmap('./src/room_bg_level4.png'))
+        self.level4.setGeometry(720, 200, 170, 225)
+        self.level4.setScaledContents(True)  # 让图片自适应label大小
         frame4 = QLabel(self)
         frame4.setPixmap(QPixmap('./src/room_frame.png'))
         frame4.setGeometry(720, 200, 170, 225)

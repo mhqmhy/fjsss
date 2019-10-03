@@ -1,6 +1,6 @@
 import sys
 from PyQt5.QtWidgets import QApplication, QWidget, QDialog, QLabel, QLineEdit, QPushButton, \
-    QGridLayout, QVBoxLayout, QHBoxLayout, QMessageBox
+    QGridLayout, QVBoxLayout, QHBoxLayout, QMessageBox,QMainWindow
 
 USER_PWD = {
         'la_vie': 'password'
