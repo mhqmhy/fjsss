@@ -30,11 +30,19 @@ class MainWindow(QWidget): #绝对定位布局
         self.avatar_init()
         self.userName_init()
         self.room_init()
+        self.topTab_init()
         # hlayout.addWidget(QtWidgets.QPushButton('11'))
         # hwg=QtWidgets.QWidget()
         # hwg.setLayout(hlayout)
         # wlayout.addWidget(hwg)
         # self.setLayout(wlayout)
+    def topTab_init(self):
+        pass
+        # tab1=QLabel(self)
+        # tab1.setPixmap(QPixmap('./src/htop_btn_settings.png'))
+        # tab1.setGeometry(200, 200, 100,100)
+        # tab1.setScaledContents(True)  # 让图片自适应label大小
+
     def avatar_init(self):
         avatar1 = QLabel(self)
         avatar1.setPixmap(QPixmap('./src/headTopFrame.png'))
