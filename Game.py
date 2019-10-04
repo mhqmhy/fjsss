@@ -20,21 +20,25 @@ class Room(QWidget):
         self.start()
         self.initUi()
         self.hall=hall
+
     def initUi(self):
         self.quitBtn = QPushButton(self)
         self.quitBtn.setStyleSheet("QPushButton{border-image: url(./src/top_btn_exit.png)}")
         self.quitBtn.setGeometry(0, 8, 60, 62)
         self.startBtn.clicked.connect(self.closeStartBtn)
         self.quitBtn.clicked.connect(self.quit)
+
     def quit(self):
         if self.hall!=None:
             self.hall.show()
         self.close()
+
     def loadBg(self):
         self.setCursor(QCursor(QPixmap('./src/mouse40.png')))
         palette = QPalette()
         palette.setBrush(self.backgroundRole(), QBrush(QPixmap('./src/room_bc1.png')))
         self.setPalette(palette)
+
     def loadTable(self):
         table = QLabel(self)
         table.setPixmap(QPixmap('./src/桌子.png'))
@@ -65,38 +69,34 @@ class Room(QWidget):
         self.pokes=[]
         self.pokesbg=[]
         for i in range(13):
-            pokebg = QLabel(self)
-            pokebg.setPixmap(QPixmap('./src/pokerBgDefault.png'))
-            pokebg.setGeometry(450 + 20 * i, 680, 73, 100)
-            pokebg.hide()
-            self.pokesbg.append(pokebg)
             x = QPushButton(self)
-            # x.setPixmap(QPixmap('./src/cardBack.png'))
             x.setStyleSheet("QPushButton{border-image: url(./src/cardBack.png)}")
-            x.setGeometry(450+20*i, 680, 73, 100)
+            x.setGeometry(450+22*i, 680, 73, 100)
             self.pokes.append(x)
-            # x.setScaledContents(True)
+
     def start(self):
         self.startBtn=QPushButton(self)
         self.startBtn.setStyleSheet("QPushButton{border-image: url(./src/开始游戏.png)}")
         self.startBtn.setGeometry(540,400,125,60)
-
     def closeStartBtn(self):
         self.startBtn.close()
         self.startGame()
         #开始发牌!!!
         for x in self.pokes:
-            self.pokesbg[self.pokes.index(x)].show()
-            x.setStyleSheet("QPushButton{border-image: url(./src/ElderKing.png)}")
-    def startGame(self):
+            try:
+                url='./src/pokes/Images_Cards_Card_1_'+str(self.mypokes[self.pokes.index(x)])+'.png'
 
+                x.setStyleSheet("QPushButton{border-image: url("+url+")}")
+            except Exception as e:
+                print(e)
+    def startGame(self):
         number = list(range(1, 53))
         union = random.sample(number, 52)
         m1 = union[:13]
         m2 = union[13:26]
         m3 = union[26:39]
         m4 = union[39:52]
-        print(m4)
+        self.mypokes=m1
 
 
 if __name__=="__main__":
