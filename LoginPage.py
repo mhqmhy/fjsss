@@ -16,9 +16,6 @@ class LoginPage(QWidget,LoginUi.Ui_Form):
 
     def __init__(self):
         super(LoginPage,self).__init__()
-        #设置光标变化!!!
-        #self.setCursor(QCursor(QPixmap('./src/mouse.png')))
-        # self.setCursor(QCursor(Qt.PointingHandCursor))
         self.setCursor(QCursor(QPixmap('./src/mouse40.png')))
         #设置窗口大小
         self.setMinimumSize(720,487)

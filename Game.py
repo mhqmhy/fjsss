@@ -6,6 +6,7 @@ from PyQt5.QtGui import QMovie,QPixmap,QCursor,QPalette,QBrush,QFont,QIcon
 from PyQt5 import QtCore
 import random
 
+POKE_SIZE=(50,68)
 
 class Room(QWidget):
     def __init__(self,hall=None):
@@ -19,6 +20,8 @@ class Room(QWidget):
         self.loadTable()
         self.start()
         self.initUi()
+        self.showAvatar()
+        self.showOthersAvatar()
         self.hall=hall
 
     def initUi(self):
@@ -38,7 +41,25 @@ class Room(QWidget):
         palette = QPalette()
         palette.setBrush(self.backgroundRole(), QBrush(QPixmap('./src/room_bc1.png')))
         self.setPalette(palette)
-
+    def showAvatar(self):
+        #展示自己的头像
+        avatar1 = QLabel(self)
+        avatar1.setPixmap(QPixmap('./src/headTopFrame.png'))
+        avatar1.setGeometry(295, 700, 100, 100)
+        avatar1.setScaledContents(True)  # 让图片自适应label大小
+        avatar2 = QLabel(self)
+        avatar2.setPixmap(QPixmap('./src/headBoy.png'))
+        avatar2.setGeometry(300, 705, 90, 90)
+        avatar2.setScaledContents(True)  # 让图片自适应label大小
+    def showOthersAvatar(self):
+        avatar1 = QLabel(self)
+        avatar1.setPixmap(QPixmap('./src/headTopFrame.png'))
+        avatar1.setGeometry(280, 550, 100, 100)
+        avatar1.setScaledContents(True)  # 让图片自适应label大小
+        avatar2 = QLabel(self)
+        avatar2.setPixmap(QPixmap('./src/headBoy.png'))
+        avatar2.setGeometry(285, 555, 90, 90)
+        avatar2.setScaledContents(True)  # 让图片自适应label大小
     def loadTable(self):
         table = QLabel(self)
         table.setPixmap(QPixmap('./src/桌子.png'))
@@ -47,24 +68,16 @@ class Room(QWidget):
         self.showMyPai()
         self.showOthersPai()
     def showOthersPai(self):
-        for i in range(13):
-            x = QPushButton(self)
-            # x.setPixmap(QPixmap('./src/cardBack.png'))
-            x.setStyleSheet("QPushButton{border-image: url(./src/cardBack.png)}")
-            x.setGeometry(180, 550+i*5, 73, 100)
-            # x.setScaledContents(True)
+        x = QPushButton(self)
+        x.setStyleSheet("QPushButton{border-image: url(./src/cardBack.png)}")
+        x.setGeometry(180, 550, 73, 100)
+        y = QPushButton(self)
+        y.setStyleSheet("QPushButton{border-image: url(./src/cardBack.png)}")
+        y.setGeometry(950, 550 , 73, 100)
+        z = QPushButton(self)
+        z.setStyleSheet("QPushButton{border-image: url(./src/cardBack.png)}")
+        z.setGeometry(500, 450, 73, 100)
 
-            x = QPushButton(self)
-            # x.setPixmap(QPixmap('./src/cardBack.png'))
-            x.setStyleSheet("QPushButton{border-image: url(./src/cardBack.png)}")
-            x.setGeometry(950, 550 + i * 5, 73, 100)
-            # x.setScaledContents(True)
-
-            x = QPushButton(self)
-            # x.setPixmap(QPixmap('./src/cardBack.png'))
-            x.setStyleSheet("QPushButton{border-image: url(./src/cardBack.png)}")
-            x.setGeometry(500+10*i, 450, 73, 100)
-            # x.setScaledContents(True)
     def showMyPai(self):
         self.pokes=[]
         self.pokesbg=[]
@@ -85,7 +98,6 @@ class Room(QWidget):
         for x in self.pokes:
             try:
                 url='./src/pokes/Images_Cards_Card_1_'+str(self.mypokes[self.pokes.index(x)])+'.png'
-
                 x.setStyleSheet("QPushButton{border-image: url("+url+")}")
             except Exception as e:
                 print(e)

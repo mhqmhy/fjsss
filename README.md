@@ -6,5 +6,13 @@
 
 
 
-## 二、界面展示
+## 二、文档
+
+### [1.后端接口文档地址](http://docs.shisanshui.rtxux.xyz/apis/auth/postauthlogin)
+
+### 2.前端介绍
+
+#### (1)登陆和注册
+
+登陆和注册页面合并，第一次登陆将会自动注册
 
