@@ -1,6 +1,6 @@
 import sys
 import pygame
-from PyQt5.QtWidgets import QApplication, QWidget
+from PyQt5.QtWidgets import QApplication, QWidget,QLineEdit
 from PyQt5.QtGui import QFont
 from loginWinUi import Ui_Form
 from linkServer import LoginAccount
@@ -17,6 +17,7 @@ class StartWin(Ui_Form,QWidget):
         self.cl=LoginAccount()
         self.initUi()
     def initUi(self):
+        self.login_passwd.setEchoMode(QLineEdit.Password)#密码框隐藏 PasswordEchoOnEdit Password
         self.login_userName.setText('SheepHuan')
         self.login_passwd.setText('GoodJob')
         self.login_userName.setFont(QFont('Cosolas',14))

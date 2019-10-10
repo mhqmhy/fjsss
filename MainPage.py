@@ -93,11 +93,6 @@ class MainWindow(QWidget): #绝对定位布局
         self.level1 = QPushButton(self)
         self.level1.setStyleSheet("QPushButton{border-image: url(./src/room_frame.png)}")
         self.level1.setGeometry(150, 200, 170, 225)
-
-        # self.level1.setIcon(QIcon(QPixmap('./src/room_bg_level1.png')))
-
-        # self.level1.setScaledContents(True)  # 让图片自适应label大小
-
         self.level2 = QLabel(self)
         self.level2.setPixmap(QPixmap('./src/room_bg_level2.png'))
         self.level2.setGeometry(340, 200, 170, 225)

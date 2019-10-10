@@ -87,7 +87,7 @@ class Game():
             reData=json.loads(response.text)
             self.game_id=reData["data"]["id"]
             pokes=reData["data"]["card"].split(' ')
-            print('game-id:',reData["id"])
+            print('game-id:',reData["data"]["id"])
             return pokes
         except Exception as e:
             print('linkServer/Game()/opengame()',e)
@@ -104,6 +104,10 @@ class Game():
         response = requests.post('https://api.shisanshui.rtxux.xyz/game/submit', json.loads(dic),headers=headers)
         reData = json.loads(response.text)
 
+        try:
+            print('出牌成功',reData["data"]["msg"])
+        except:
+            print('Web Error',reData["data"])
 
 class historyInfo():
     def __init__(self):

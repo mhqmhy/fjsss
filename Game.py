@@ -31,7 +31,7 @@ class Room(QWidget):
     def initUi(self):
         self.gameAgain=QPushButton(self)
         self.gameAgain.setStyleSheet("QPushButton{border-image: url(./src/再来一局.png)}")
-        self.gameAgain.setGeometry(800, 10, 191, 74)
+        self.gameAgain.setGeometry(800, 10, 125, 50)
         self.startBtn = QPushButton(self)
         self.startBtn.setStyleSheet("QPushButton{border-image: url(./src/开始游戏.png)}")
         self.startBtn.setGeometry(540, 400, 125, 60)
