@@ -29,6 +29,9 @@ class Room(QWidget):
 
 
     def initUi(self):
+        self.gameAgain=QPushButton(self)
+        self.gameAgain.setStyleSheet("QPushButton{border-image: url(./src/再来一局.png)}")
+        self.gameAgain.setGeometry(800, 10, 191, 74)
         self.startBtn = QPushButton(self)
         self.startBtn.setStyleSheet("QPushButton{border-image: url(./src/开始游戏.png)}")
         self.startBtn.setGeometry(540, 400, 125, 60)
@@ -37,6 +40,7 @@ class Room(QWidget):
         self.quitBtn.setGeometry(0, 8, 60, 62)
         self.startBtn.clicked.connect(self.startGame)
         self.quitBtn.clicked.connect(self.quit)
+        self.gameAgain.clicked.connect(self.startGame)
 
     def initData(self):
         self.mypokes=[]
@@ -107,11 +111,10 @@ class Room(QWidget):
     def startGame(self):
         try:
             self.startBtn.close()
-
             print(self.userInfo["token"])
             self.mypokes=self.server.openGame(self.userInfo["token"])
             #开始发牌!!!
-            print(self.mypokes)
+            print("token",self.mypokes)
             for y in self.pokes:
                 x=self.mypokes[self.pokes.index(y)]
                 if '$' in x:
@@ -122,7 +125,6 @@ class Room(QWidget):
                     index=13*1
                 else:
                     index=0
-                print(x)
                 if 'A' in x:
                     index+=1
                 elif 'K' in x:
@@ -132,9 +134,9 @@ class Room(QWidget):
                 elif 'J' in x:
                     index+=11
                 else:
-                    index+=int(x[-1])
+                    index+=int(x[1:])
                 try:
-                    print(index)
+                    # print(index)
                     url='./src/pokes/Images_Cards_Card_1_'+str(index)+'.png'
                     y.setStyleSheet("QPushButton{border-image: url("+url+")}")
                 except Exception as e:

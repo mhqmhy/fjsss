@@ -18,11 +18,7 @@ class LoginAccount():
         }
         response = requests.post('https://api.shisanshui.rtxux.xyz/auth/login', json.dumps(account), headers=headers)
         reData = json.loads(response.text)
-        # if isinstance(reData["data"],str) and reData["data"]=='xyz.rtxux.game.shisanshui.exception.AppException: Username or password not match':#返回了错误
-        #     self.signIn(account)
-        # elif isinstance(reData["data"],str):
-        #     print('Web Error:',reData["data"])
-        #     return
+
         try:
             self.token = reData["data"]["token"]
             print(self.token,'登录成功')
@@ -80,7 +76,6 @@ class Game():
     def __init__(self):
         self.game_id=''
         self.pokes=[]
-
     def openGame(self,token):
         try:
             headers = {
@@ -92,20 +87,27 @@ class Game():
             reData=json.loads(response.text)
             self.game_id=reData["data"]["id"]
             pokes=reData["data"]["card"].split(' ')
+            print('game-id:',reData["id"])
             return pokes
         except Exception as e:
             print('linkServer/Game()/opengame()',e)
             return None
-    def submitPoke(self):
-        pass
-    def historyList(self,token):
+    def submitPoke(self,token,pokes):
         headers = {
-            "X-Auth-Token": '',
+            "Content-Type":'application/json',
+            "X-Auth-Token": token,
             "User-Agent": 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Mobile Safari/537.36'
         }
-        headers["X-Auth-Token"] = token
-        response = requests.get('https://api.shisanshui.rtxux.xyz/history', headers=headers)
-        print(response.text)
+        dic={}
+        dic["id"]=self.game_id
+        dic["card"]=pokes
+        response = requests.post('https://api.shisanshui.rtxux.xyz/game/submit', json.loads(dic),headers=headers)
+        reData = json.loads(response.text)
+
+
+class historyInfo():
+    def __init__(self):
+        pass
 
 if __name__=="__main__":
     account = {
