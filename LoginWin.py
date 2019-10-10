@@ -17,6 +17,8 @@ class StartWin(Ui_Form,QWidget):
         self.cl=LoginAccount()
         self.initUi()
     def initUi(self):
+        self.login_userName.setText('SheepHuan')
+        self.login_passwd.setText('GoodJob')
         self.login_userName.setFont(QFont('Cosolas',14))
         self.login_passwd.setFont(QFont('Cosolas', 14))
         self.SI_userName.setFont(QFont('Cosolas', 14))

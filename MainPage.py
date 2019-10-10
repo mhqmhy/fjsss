@@ -18,7 +18,6 @@ class MainWindow(QWidget): #绝对定位布局
         # self.setMaximumSize(1000, 1006)
         self.setMaximumSize(1000, 676)
 
-        # self.setStyleSheet("#MainWindow{border-image:url(./src/hall1000.jpg);}")
         palette = QPalette()
         palette.setBrush(self.backgroundRole(), QBrush(QPixmap('./src/TableBG/room_bj_laizi_1_kp.jpg')))
         self.setPalette(palette)
@@ -43,7 +42,6 @@ class MainWindow(QWidget): #绝对定位布局
         self.avatar_init()
         self.userName_init()
         self.room_init()
-        self.topTab_init()
         self.level1.clicked.connect(self.click_level1)
         self.historyListBtn.clicked.connect(self.jump2History)
         self.rankingListBtn.clicked.connect(self.jump2Ranking)
@@ -56,18 +54,15 @@ class MainWindow(QWidget): #绝对定位布局
         self.rankWin.show()
 
     def click_level1(self):
+
+        print(self.userInfo)
         try:
-            self.x=Room()
-            self.x.show()
+            self.onegame = Room( )
+            self.onegame.getUserInfo(self.userInfo)
+            self.onegame.show()
         except Exception as e:
-            print(e)
-        # self.show()
-    def topTab_init(self):
-        pass
-        # tab1=QLabel(self)
-        # tab1.setPixmap(QPixmap('./src/htop_btn_settings.png'))
-        # tab1.setGeometry(200, 200, 100,100)
-        # tab1.setScaledContents(True)  # 让图片自适应label大小
+            print('1',e)
+
 
     def avatar_init(self):
         avatar1 = QLabel(self)

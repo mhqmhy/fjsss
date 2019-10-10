@@ -78,15 +78,26 @@ class LoginAccount():
 
 class Game():
     def __init__(self):
-        pass
+        self.game_id=''
+        self.pokes=[]
+
     def openGame(self,token):
-        headers = {
-            "X-Auth-Token": '',
-            "User-Agent": 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Mobile Safari/537.36'
-        }
-        headers["X-Auth-Token"] = token
-        response = requests.post('https://api.shisanshui.rtxux.xyz/game/open', headers=headers)
-        print(response.text)
+        try:
+            headers = {
+                "X-Auth-Token": '',
+                "User-Agent": 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Mobile Safari/537.36'
+            }
+            headers["X-Auth-Token"] = token
+            response = requests.post('https://api.shisanshui.rtxux.xyz/game/open', headers=headers)
+            reData=json.loads(response.text)
+            self.game_id=reData["data"]["id"]
+            pokes=reData["data"]["card"].split(' ')
+            return pokes
+        except Exception as e:
+            print('linkServer/Game()/opengame()',e)
+            return None
+    def submitPoke(self):
+        pass
     def historyList(self,token):
         headers = {
             "X-Auth-Token": '',
