@@ -27,6 +27,7 @@ class LoginAccount():
             self.token = reData["data"]["token"]
             print(self.token,'登录成功')
             self.account=account
+            return 'OK'
         except:
             print('Web Error',reData["data"])
     def signIn(self,account):
@@ -43,12 +44,28 @@ class LoginAccount():
                 self.user_id = reData["data"]["user_id"]
                 print(self.user_id, '注册成功')
                 self.account = account
+                return 'OK'
             except:
                 print('Web Error',reData["data"])
             # self.login(account)
 
     def check(self): #验证登陆信息
-        pass
+        if self.token == '':
+            self.login(self.account)
+        if self.user_id=='':
+            headers = {
+                "X-Auth-Token": '',
+                "User-Agent": 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Mobile Safari/537.36'
+            }
+            headers["X-Auth-Token"] = self.token
+            response = requests.get('https://api.shisanshui.rtxux.xyz/auth/validate', headers=headers)
+            reData=json.loads(response.text)
+            self.user_id=reData["data"]["user_id"]
+        dic={}
+        dic["account"]=self.account
+        dic["token"]=self.token
+        dic["user_id"]=self.user_id
+        return dic
 
     def loginOut(self):
         headers = {

@@ -6,15 +6,13 @@ from PyQt5.QtGui import QMovie,QPixmap,QCursor,QPalette,QBrush,QFont,QIcon
 from PyQt5 import QtCore
 from Game import Room
 #QMainWindow,Ui_MainWindow,
-
-
+import history
+import ranking
 class MainWindow(QWidget): #绝对定位布局
 
     def __init__(self):
         super(MainWindow,self).__init__()
-        self.setObjectName('MainWindow')
-
-        #self.setupUi(self)
+        self.setWindowTitle("登录界面")
         #self.setMinimumSize(1680, 1136)
         self.setMinimumSize(1000, 676)
         # self.setMaximumSize(1000, 1006)
@@ -22,22 +20,42 @@ class MainWindow(QWidget): #绝对定位布局
 
         # self.setStyleSheet("#MainWindow{border-image:url(./src/hall1000.jpg);}")
         palette = QPalette()
-        palette.setBrush(self.backgroundRole(), QBrush(QPixmap('./src/hall1000.jpg')))
+        palette.setBrush(self.backgroundRole(), QBrush(QPixmap('./src/TableBG/room_bj_laizi_1_kp.jpg')))
         self.setPalette(palette)
         self.setCursor(QCursor(QPixmap('./src/mouse40.png')))
         self.initUi()
+    def getUserInfo(self,dict):
+        self.userInfo=dict
+        self.account=dict["account"]
+        self.token=dict["token"]
+        self.user_id=dict["user_id"]
 
     def initUi(self):
-        wlayout = QtWidgets.QVBoxLayout()  # 全局布局（1个）：水平
-        hlayout = QtWidgets.QHBoxLayout()
+        self.rankingListBtn=QPushButton(self)
+        self.historyListBtn=QPushButton(self)
+        self.rankingListBtn.setStyleSheet("QPushButton{border-image: url(./src/排行榜.png)}")
+        self.historyListBtn.setStyleSheet("QPushButton{border-image: url(./src/历史记录.png)}")
+        self.rankingListBtn.setGeometry(5,120, 100,40)
+        self.historyListBtn.setGeometry(5,170,100,40)
+        settingBtn=QPushButton(self)
+        settingBtn.setStyleSheet("QPushButton{border-image: url(./src/top_btn_settings.png)}")
+        settingBtn.setGeometry(890,10,60,60)
         self.avatar_init()
         self.userName_init()
         self.room_init()
         self.topTab_init()
         self.level1.clicked.connect(self.click_level1)
+        self.historyListBtn.clicked.connect(self.jump2History)
+        self.rankingListBtn.clicked.connect(self.jump2Ranking)
+    def jump2History(self):
+        self.hisWin=history.History()
+        self.hisWin.show()
+
+    def jump2Ranking(self):
+        self.rankWin=ranking.RankList()
+        self.rankWin.show()
 
     def click_level1(self):
-        print(11)
         try:
             self.x=Room()
             self.x.show()

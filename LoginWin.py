@@ -1,11 +1,11 @@
 import sys
 import pygame
-from PyQt5 import QtWidgets
-from PyQt5.QtWidgets import QApplication, QWidget,QLabel,QPushButton,QVBoxLayout,QHBoxLayout
-from PyQt5.QtGui import QMovie,QPixmap,QCursor,QPalette,QBrush,QIcon
-from PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import QApplication, QWidget
+from PyQt5.QtGui import QFont
 from loginWinUi import Ui_Form
 from linkServer import LoginAccount
+import MainPage
+
 
 class StartWin(Ui_Form,QWidget):
 
@@ -13,13 +13,19 @@ class StartWin(Ui_Form,QWidget):
         super(StartWin,self).__init__()
         self.setWindowTitle('登录界面')
         self.setupUi(self)
-        self.tabWidget.setAttribute(Qt.WA_TranslucentBackground)
+        self.win = MainPage.MainWindow()
         self.cl=LoginAccount()
         self.initUi()
     def initUi(self):
+        self.login_userName.setFont(QFont('Cosolas',14))
+        self.login_passwd.setFont(QFont('Cosolas', 14))
+        self.SI_userName.setFont(QFont('Cosolas', 14))
+        self.SI_passwd.setFont(QFont('Cosolas', 14))
+        self.SI_passwdAgain.setFont(QFont('Cosolas', 14))
         self.loginBtn.clicked.connect(self.login)
         self.signInBtn.clicked.connect(self.signIn)
     def login(self):
+        # win.close()
         account = {
             "username": '',
             "password": ''
@@ -28,12 +34,20 @@ class StartWin(Ui_Form,QWidget):
         account["password"]=self.login_passwd.text()
         if account["username"] and account["password"]:
             try:
-                self.cl.login(account)
-            except:
-                pass
+                if self.cl.login(account)=='OK':
+                    try:
+                        self.win.getUserInfo(self.cl.check())
+                        self.win.show()
+                        self.close()
+                    except Exception as e:
+                        print(e)
+
+            except Exception as e:
+                print(e)
 
 
     def signIn(self):
+        # win.close()
         account = {
             "username": '',
             "password": ''
@@ -44,14 +58,19 @@ class StartWin(Ui_Form,QWidget):
             print(account)
             if account["username"] and account["password"]:
                 try:
-                    self.cl.signIn(account)
+                    if self.cl.signIn(account)!='error':
+                        self.win.getUserInfo(self.cl.check())
+                        self.win.show()
+                        self.hide()
                 except:
                     pass
         else:
             print('两次密码不一致')
 
+
 if __name__=="__main__":
     app = QApplication(sys.argv)
     demo = StartWin()
     demo.show()
+
     sys.exit(app.exec_())
