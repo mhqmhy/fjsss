@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>598</width>
-    <height>404</height>
+    <height>421</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -32,7 +32,7 @@
       <enum>QTabWidget::Rounded</enum>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <property name="elideMode">
       <enum>Qt::ElideNone</enum>
@@ -236,7 +236,7 @@
          <x>2</x>
          <y>2</y>
          <width>551</width>
-         <height>321</height>
+         <height>370</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="tab2Ver">
@@ -381,7 +381,7 @@
                </font>
               </property>
               <property name="text">
-               <string>重复密码</string>
+               <string>学号</string>
               </property>
               <property name="textFormat">
                <enum>Qt::AutoText</enum>
@@ -392,7 +392,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QLineEdit" name="SI_passwdAgain">
+             <widget class="QLineEdit" name="SI_student_number">
               <property name="minimumSize">
                <size>
                 <width>200</width>
@@ -408,6 +408,51 @@
              </widget>
             </item>
            </layout>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_9">
+          <item>
+           <widget class="QLabel" name="label_6">
+            <property name="minimumSize">
+             <size>
+              <width>60</width>
+              <height>60</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Consolas</family>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>教务处密码</string>
+            </property>
+            <property name="textFormat">
+             <enum>Qt::AutoText</enum>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="SI_student_passwd">
+            <property name="minimumSize">
+             <size>
+              <width>200</width>
+              <height>40</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>479</width>
+              <height>40</height>
+             </size>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>

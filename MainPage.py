@@ -30,6 +30,22 @@ class MainWindow(QWidget): #绝对定位布局
         self.user_id=dict["user_id"]
 
     def initUi(self):
+        #加载头像
+        headFrame = QLabel(self)
+        headFrame.setPixmap(QPixmap('./src/headTopFrame.png'))
+        headFrame.setGeometry(2, 2, 100, 100)
+        headFrame.setScaledContents(True)  # 让图片自适应label大小
+        avatar = QLabel(self)
+        avatar.setPixmap(QPixmap('./src/headBoy.png'))
+        avatar.setGeometry(7, 7, 90, 90)
+        avatar.setScaledContents(True)  # 让图片自适应label大小
+        #加载姓名
+        name = QLabel(self)
+        name.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignVCenter)
+        name.setText("往事随风")
+        name.setGeometry(90, 10, 100, 25)
+        name.setFont(QFont("Microsoft YaHei"))
+        name.setStyleSheet("QLabel{color:rgb(255,250,250,255);font-size:20px;font-weight:bold;}")
         self.rankingListBtn=QPushButton(self)
         self.historyListBtn=QPushButton(self)
         self.rankingListBtn.setStyleSheet("QPushButton{border-image: url(./src/排行榜.png)}")
@@ -39,10 +55,9 @@ class MainWindow(QWidget): #绝对定位布局
         settingBtn=QPushButton(self)
         settingBtn.setStyleSheet("QPushButton{border-image: url(./src/top_btn_settings.png)}")
         settingBtn.setGeometry(890,10,60,60)
-        self.avatar_init()
-        self.userName_init()
-        self.room_init()
-        self.level1.clicked.connect(self.click_level1)
+
+        self.init_RoomLevel()
+        self.level1.clicked.connect(self.jump2Level1)
         self.historyListBtn.clicked.connect(self.jump2History)
         self.rankingListBtn.clicked.connect(self.jump2Ranking)
     def jump2History(self):
@@ -53,72 +68,55 @@ class MainWindow(QWidget): #绝对定位布局
         self.rankWin=ranking.RankList()
         self.rankWin.show()
 
-    def click_level1(self):
-
+    def jump2Level1(self):
         print(self.userInfo)
         try:
             self.onegame = Room( )
             self.onegame.getUserInfo(self.userInfo)
             self.onegame.show()
         except Exception as e:
-            print('1',e)
+            print('MainPage/jump2Level1()',e)
+    def jump2Level2(self):
+        pass
 
+    def jump2Level3(self):
+        pass
 
-    def avatar_init(self):
-        avatar1 = QLabel(self)
-        avatar1.setPixmap(QPixmap('./src/headTopFrame.png'))
-        avatar1.setGeometry(2,2, 100, 100)
-        avatar1.setScaledContents(True)  # 让图片自适应label大小
-        avatar2 = QLabel(self)
-        avatar2.setPixmap(QPixmap('./src/headBoy.png'))
-        avatar2.setGeometry(7, 7, 90, 90)
-        avatar2.setScaledContents(True)  # 让图片自适应label大小
-    def userName_init(self):
-        name=QLabel(self)
-        name.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignVCenter)
-        name.setText("往事随风")
-        name.setGeometry(90,10, 100,25)
-        name.setFont(QFont("Microsoft YaHei"))
-        name.setStyleSheet("QLabel{color:rgb(255,250,250,255);font-size:20px;font-weight:bold;}")
-        zhuyeBtn=QPushButton(self)
-        zhuyeBtn.setGeometry(110,60,60,25)
-        zhuyeBtn.setStyleSheet("QPushButton{border-image: url(./src/person_btn_tap_zy.png)}")
-
-    def room_init(self):
+    def jump2Level4(self):
+        pass
+    def init_RoomLevel(self):
         frame1 = QLabel(self)
         frame1.setPixmap(QPixmap('./src/room_bg_level1.png'))
         frame1.setGeometry(150, 200, 170, 225)
         frame1.setScaledContents(True)
-
         self.level1 = QPushButton(self)
         self.level1.setStyleSheet("QPushButton{border-image: url(./src/room_frame.png)}")
         self.level1.setGeometry(150, 200, 170, 225)
-        self.level2 = QLabel(self)
-        self.level2.setPixmap(QPixmap('./src/room_bg_level2.png'))
-        self.level2.setGeometry(340, 200, 170, 225)
-        self.level2.setScaledContents(True)  # 让图片自适应label大小
+
         frame2 = QLabel(self)
         frame2.setPixmap(QPixmap('./src/room_frame.png'))
         frame2.setGeometry(340, 200, 170, 225)
         frame2.setScaledContents(True)
+        self.level2 = QPushButton(self)
+        self.level2.setStyleSheet("QPushButton{border-image: url(./src/room_bg_level2.png)}")
+        self.level2.setGeometry(340, 200, 170, 225)
 
-        self.level3 = QLabel(self)
-        self.level3.setPixmap(QPixmap('./src/room_bg_level3.png'))
-        self.level3.setGeometry(530, 200, 170, 225)
-        self.level3.setScaledContents(True)  # 让图片自适应label大小
         frame3 = QLabel(self)
         frame3.setPixmap(QPixmap('./src/room_frame.png'))
         frame3.setGeometry(530, 200, 170, 225)
         frame3.setScaledContents(True)
+        self.level3 = QPushButton(self)
+        self.level3.setStyleSheet("QPushButton{border-image: url(./src/room_bg_level3.png)}")
+        self.level3.setGeometry(530, 200, 170, 225)
 
-        self.level4 = QLabel(self)
-        self.level4.setPixmap(QPixmap('./src/room_bg_level4.png'))
-        self.level4.setGeometry(720, 200, 170, 225)
-        self.level4.setScaledContents(True)  # 让图片自适应label大小
         frame4 = QLabel(self)
         frame4.setPixmap(QPixmap('./src/room_frame.png'))
         frame4.setGeometry(720, 200, 170, 225)
         frame4.setScaledContents(True)
+        self.level4 = QPushButton(self)
+        self.level4.setStyleSheet("QPushButton{border-image: url(./src/room_bg_level4.png)}")
+        self.level4.setGeometry(720, 200, 170, 225)
+
 
 if __name__=="__main__":
     app = QApplication(sys.argv)

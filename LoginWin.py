@@ -24,7 +24,7 @@ class StartWin(Ui_Form,QWidget):
         self.login_passwd.setFont(QFont('Cosolas', 14))
         self.SI_userName.setFont(QFont('Cosolas', 14))
         self.SI_passwd.setFont(QFont('Cosolas', 14))
-        self.SI_passwdAgain.setFont(QFont('Cosolas', 14))
+        # self.SI_passwdAgain.setFont(QFont('Cosolas', 14))
         self.loginBtn.clicked.connect(self.login)
         self.signInBtn.clicked.connect(self.signIn)
     def login(self):
@@ -53,22 +53,28 @@ class StartWin(Ui_Form,QWidget):
         # win.close()
         account = {
             "username": '',
-            "password": ''
+            "password": '',
+            "student_number":'',
+            "student_password":''
         }
         account["username"] = self.SI_userName.text()
-        if self.SI_passwd.text()==self.SI_passwdAgain.text():
-            account["password"] = self.SI_passwd.text()
-            print(account)
-            if account["username"] and account["password"]:
-                try:
-                    if self.cl.signIn(account)!='error':
-                        self.win.getUserInfo(self.cl.check())
-                        self.win.show()
-                        self.hide()
-                except:
-                    pass
+        # if self.SI_passwd.text()==self.SI_passwdAgain.text():
+        account["password"] = self.SI_passwd.text()
+        account["student_number"]=self.SI_student_number
+        account["student_password"]=self.SI_student_passwd
+        print(account)
+        if account["username"] and account["password"]:
+            try:
+                if self.cl.signIn(account)!='error':
+                    self.win.getUserInfo(self.cl.check())
+                    self.win.show()
+                    self.hide()
+                else:
+                    print("注册失败")
+            except:
+                pass
         else:
-            print('两次密码不一致')
+            print('注册失败')
 
 
 if __name__=="__main__":

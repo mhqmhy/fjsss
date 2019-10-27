@@ -16,19 +16,38 @@ class Room(QWidget):
         self.setMinimumSize(1200, 811)
         self.setMaximumSize(1200, 811)
         # self.setStyleSheet("#MainWindow{border-image:url(./src/room_bc1.png);}")
-        self.loadBg()
         try:
             self.initData()
-            self.loadTable()
             self.initUi()
-            self.showAvatar()
-            self.showOthersAvatar()
             self.hall=None
         except Exception as e:
             print(e)
 
 
     def initUi(self):
+        #注意控制加载图片的顺序
+        #加载房间背景
+        self.setCursor(QCursor(QPixmap('./src/mouse40.png')))
+        palette = QPalette()
+        palette.setBrush(self.backgroundRole(), QBrush(QPixmap('./src/room_bc1.png')))
+        self.setPalette(palette)
+        #加载桌子的图片
+        table = QLabel(self)
+        table.setPixmap(QPixmap('./src/桌子.png'))
+        table.setGeometry(150, 410, 900, 700)
+        table.setScaledContents(True)  # 让图片自适应label大小
+        # 加载头像
+        headFrame = QLabel(self)  # 加载头像边框
+        headFrame.setPixmap(QPixmap('./src/headTopFrame.png'))
+        headFrame.setGeometry(295, 700, 100, 100)
+        headFrame.setScaledContents(True)  # 让图片自适应label大小
+        avatar = QLabel(self)  # 加载头像图片,默认男性头像
+        avatar.setPixmap(QPixmap('./src/headBoy.png'))
+        avatar.setGeometry(300, 705, 90, 90)
+        avatar.setScaledContents(True)  # 让图片自适应label大小
+        #加载扑克牌位置
+        self.showMyPai()
+        #加载三个按钮 再来一局、开始游戏和离开游戏三个
         self.gameAgain=QPushButton(self)
         self.gameAgain.setStyleSheet("QPushButton{border-image: url(./src/再来一局.png)}")
         self.gameAgain.setGeometry(800, 10, 125, 50)
@@ -38,8 +57,9 @@ class Room(QWidget):
         self.quitBtn = QPushButton(self)
         self.quitBtn.setStyleSheet("QPushButton{border-image: url(./src/top_btn_exit.png)}")
         self.quitBtn.setGeometry(0, 8, 60, 62)
+
         self.startBtn.clicked.connect(self.startGame)
-        self.quitBtn.clicked.connect(self.quit)
+        self.quitBtn.clicked.connect(self.quitRoom)
         self.gameAgain.clicked.connect(self.startGame)
 
     def initData(self):
@@ -52,53 +72,6 @@ class Room(QWidget):
         except Exception as e:
             print(e)
 
-    def quit(self):
-        if self.hall!=None:
-            self.hall.show()
-        self.close()
-
-    def loadBg(self):
-        self.setCursor(QCursor(QPixmap('./src/mouse40.png')))
-        palette = QPalette()
-        palette.setBrush(self.backgroundRole(), QBrush(QPixmap('./src/room_bc1.png')))
-        self.setPalette(palette)
-    def showAvatar(self):
-        #展示自己的头像
-        avatar1 = QLabel(self)
-        avatar1.setPixmap(QPixmap('./src/headTopFrame.png'))
-        avatar1.setGeometry(295, 700, 100, 100)
-        avatar1.setScaledContents(True)  # 让图片自适应label大小
-        avatar2 = QLabel(self)
-        avatar2.setPixmap(QPixmap('./src/headBoy.png'))
-        avatar2.setGeometry(300, 705, 90, 90)
-        avatar2.setScaledContents(True)  # 让图片自适应label大小
-    def showOthersAvatar(self):
-        avatar1 = QLabel(self)
-        avatar1.setPixmap(QPixmap('./src/headTopFrame.png'))
-        avatar1.setGeometry(280, 550, 100, 100)
-        avatar1.setScaledContents(True)  # 让图片自适应label大小
-        avatar2 = QLabel(self)
-        avatar2.setPixmap(QPixmap('./src/headBoy.png'))
-        avatar2.setGeometry(285, 555, 90, 90)
-        avatar2.setScaledContents(True)  # 让图片自适应label大小
-    def loadTable(self):
-        table = QLabel(self)
-        table.setPixmap(QPixmap('./src/桌子.png'))
-        table.setGeometry(150, 410, 900, 700)
-        table.setScaledContents(True)  # 让图片自适应label大小
-
-        self.showMyPai()
-        self.showOthersPai()
-    def showOthersPai(self):
-        x = QPushButton(self)
-        x.setStyleSheet("QPushButton{border-image: url(./src/cardBack.png)}")
-        x.setGeometry(180, 550, 73, 100)
-        y = QPushButton(self)
-        y.setStyleSheet("QPushButton{border-image: url(./src/cardBack.png)}")
-        y.setGeometry(950, 550 , 73, 100)
-        z = QPushButton(self)
-        z.setStyleSheet("QPushButton{border-image: url(./src/cardBack.png)}")
-        z.setGeometry(500, 450, 73, 100)
 
     def showMyPai(self):
         self.pokes=[]
@@ -108,6 +81,9 @@ class Room(QWidget):
             x.setGeometry(450+22*i, 680, 73, 100)
             self.pokes.append(x)
 
+    def quitRoom(self):
+        self.close()
+
     def startGame(self):
         try:
             self.startBtn.close()
@@ -115,6 +91,8 @@ class Room(QWidget):
             self.mypokes=self.server.openGame(self.userInfo["token"])
             #开始发牌!!!
             print("token",self.mypokes)
+            #将牌传入出牌算法
+
             for y in self.pokes:
                 x=self.mypokes[self.pokes.index(y)]
                 if '$' in x:
@@ -141,6 +119,16 @@ class Room(QWidget):
                     y.setStyleSheet("QPushButton{border-image: url("+url+")}")
                 except Exception as e:
                     print(e)
+                #出牌
+            card=[]
+            one=self.mypokes[0]+' '+self.mypokes[1]+' '+self.mypokes[2]
+            two=self.mypokes[3]+' '+self.mypokes[4]+' '+self.mypokes[5]+' '+self.mypokes[6]+' '+self.mypokes[7]
+            three=self.mypokes[8]+' '+self.mypokes[9]+' '+self.mypokes[10]+' '+self.mypokes[11]+' '+self.mypokes[12]
+            card.append(one)
+            card.append(two)
+            card.append(three)
+            print(card)
+            self.server.submitPoke(self.userInfo["token"],card)
         except Exception as e:
             print('Game/startgame',e)
 
