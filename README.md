@@ -1,4 +1,5 @@
 [![GitHub issues](https://img.shields.io/github/issues/SheepHuan/fjsss)](https://github.com/SheepHuan/fjsss/issues)
+[![GitHub stars](https://img.shields.io/github/stars/mhqmhy/fjsss)](https://github.com/mhqmhy/fjsss/stargazers)
 # 介绍
 
 本项目是由纯python编写的福建十三水游戏。
